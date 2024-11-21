@@ -19,7 +19,8 @@ const mongoose= require('mongoose')
 const cookieParser=require('cookie-parser')
 const cors = require('cors')
 // const c=require('./console')
-const authroutes=require('./authroute')
+const authroutes=require('./route/auth/authroute')
+const adminProductsRouter=require('./route/admin/products-route')
 mongoose.connect("mongodb+srv://miketravers94:mypassword@cluster0.nhz6mz2.mongodb.net/").then(()=>{
     console.log('database is connected')
 }).catch((error)=>{
@@ -53,7 +54,7 @@ app.use(
   );
 
   app.use('/api/auth',authroutes)
-
+  app.use('/api/admin/products', adminProductsRouter)
 app.listen(5000, ()=>{
     console.log('hello')
 })
