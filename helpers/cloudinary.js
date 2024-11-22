@@ -2,7 +2,7 @@ const cloudinary= require('cloudinary').v2
 const multer= require('multer')
 
 cloudinary.config({
-    cloud_name:'sd',
+    cloud_name:'dhdhj9d9s',
     api_key:'934851839373123',
     api_secret:'LrAlC0oS5mC8harKyAAE7RKveoQ'
 
