@@ -61,7 +61,8 @@ const loginUser= async (req, res)=>{
         user:{
             email:checkUser.email,
             role:checkUser.role,
-            id:checkUser._id
+            id:checkUser._id,
+            userName:checkUser.userName
         }
 
 
@@ -74,14 +75,14 @@ const loginUser= async (req, res)=>{
 }
 
 const logoutUser = (req, res)=>{
-    res.clearCookie('token').json({success:true, message:'logged out successful'})
+    res.clearCookie("token").json({success:true, message:'logged out successful'})
 }
 
 //authMiddleware
 const authMiddleware = async(req, res, next)=>{
-    if(!req.cookies || !req.cookies.token) {
-        return res.status(401).json({ error: 'Token not found' });
-      }
+    // if(!req.cookies || !req.cookies.token) {
+    //     return res.status(401).json({ error: 'Token not found' });
+    //   }
     const token = req.cookies.token;
     if(!token)
         return res.status(401).json({

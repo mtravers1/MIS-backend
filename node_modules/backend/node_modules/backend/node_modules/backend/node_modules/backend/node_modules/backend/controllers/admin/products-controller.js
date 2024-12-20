@@ -1,5 +1,8 @@
 const {imageUploadUtil} = require('../../helpers/cloudinary')
 const Products = require( '../../model/products' )
+const mongoose = require('mongoose')
+const { ObjectId } = mongoose.Types;
+
 
 const handleImageUpload = async(req, res)=>{
     try{
@@ -47,27 +50,32 @@ const getAllProducts= async(req,res)=>{
 }
 
 //edit a product
-const editProduct = async(req, res)=>{
+let editProduct = async(req, res)=>{
     try{
         const {id}=req.params
-        const {image, title, description, category, brand, price, saleprice, totalstock}=req.body
-        const findProduct =await Products.findById(id)
+        // if (!ObjectId.isValid(id)) {
+        //     return res.status(400).json({ success: false, message: 'Invalid Product ID' });
+        // }
+        const {image, title, description, category, brand, price, salePrice, totalStock}=req.body
+        let findProduct =await Products.findById(id)
         if(!findProduct){
-            res.json({success:false, message:'product not found'})
+         res.json({success:false, message:'product not found'})
         }
 
         findProduct.title=title || findProduct.title
         findProduct.description=description || findProduct.description
         findProduct.category=category || findProduct.category
         findProduct.brand=brand || findProduct.brand
-        findProduct.price=price || findProduct.price
-        findProduct.salePrice=saleprice || findProduct.salePrice
+        findProduct.price=price === ''? 0: price || findProduct.price
+        findProduct.salePrice=salePrice===''?0:salePrice || findProduct.salePrice
         findProduct.image=image || findProduct.image
+        findProduct.totalStock=totalStock||findProduct.totalStock
         await findProduct.save()
         res.status(200).json({success:true, data:findProduct})
 
     }catch(e){
         console.log(e)
+        res.status(400).json({success:false, message:'Error Occured'})
     }
 }
 
@@ -77,7 +85,7 @@ const editProduct = async(req, res)=>{
 const deleteProduct = async(req, res)=>{
     try{
         const {id}=req.params
-        const product= await Products.findByIdAndUpdate(id)
+        const product= await Products.findByIdAndDelete(id)
     if(!product){
         res.status(404).json({success:false, message:'product not found'})
     }

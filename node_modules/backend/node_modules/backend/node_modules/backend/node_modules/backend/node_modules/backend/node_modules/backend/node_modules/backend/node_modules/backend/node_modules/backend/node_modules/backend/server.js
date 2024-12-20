@@ -12,7 +12,7 @@
 // app.listen(5000, ()=>{
 //     console.log('server running')
 // })
-
+const shoproutes = require('./route/shop/shoproute')
 const express = require('express')
 const app = express()
 const mongoose= require('mongoose')
@@ -54,6 +54,7 @@ app.use(
   );
 
   app.use('/api/auth',authroutes)
+  app.use('/api/shop/products', shoproutes)
   app.use('/api/admin/products', adminProductsRouter)
 app.listen(5000, ()=>{
     console.log('hello')
